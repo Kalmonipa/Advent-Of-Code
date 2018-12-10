@@ -1,4 +1,4 @@
-file = open("AdventCode-1")
+file = open("AdventCode-1-input")
 
 freq = 0
 

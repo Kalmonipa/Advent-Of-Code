@@ -1,15 +1,14 @@
-file = open("AdventCode-1")
+file = open("AdventCode-1-input")
 
-freq = 0
+# Initialises the variables
+freq = 0          # Frequency of the device
+iterations = 0    # Number of loops through the input
+list = []
 
 lines = file.readlines()
 
-def minus(freq,num):
-        freq = freq - int(num)
 
-def plus(freq,num):
-        freq = freq + int(num)
-
+# Loops through the lines to add or subtract them from the frquency value
 for i in range(0, len(lines)):
 	
 	line = lines[i]
@@ -20,6 +19,15 @@ for i in range(0, len(lines)):
 		freq -= int(num)
 	else:
 		freq += int(num)
+
+	if freq in list:
+		print freq
+		break
+	else:
+		list.append(freq)
+
+
+
 
 print freq
 
