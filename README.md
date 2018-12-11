@@ -1,1 +1,3 @@
 # Advent of Code
+
+My entries into the Advent of Code 2018. Probably won't get through all the days but at least I'm making an attempt and trying not to forget how to code...
