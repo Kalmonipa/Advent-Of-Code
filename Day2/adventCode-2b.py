@@ -1,6 +1,6 @@
 
 def main():
-    file = open("actualInput")
+    file = open("testInput")
 
     lines = file.readlines()
 
