@@ -39,12 +39,7 @@ function calculateDistances(numOne: number, numTwo: number): number {
     return dist;
 }
 
-export default function solve() {
-    // Actual data file
-    const fileName = "day01-input.txt"
-    // Test data file
-    //const fileName = "day01-test-input.txt"
-
+function getNumArrays(fileName: string) {
     let firstArray: string[] = [];
     let secArray: string[] = [];
 
@@ -58,11 +53,29 @@ export default function solve() {
         secArray.push(nums[1])
     })
 
-    // console.log(firstArray)
-    // console.log(secArray)
-
     let firstNumArray: number[] = convertToNumber(firstArray).sort();
     let secNumArray: number[] = convertToNumber(secArray).sort();
+
+    return [firstNumArray, secNumArray]
+}
+
+
+function getNumOfAppearances(totalScore: number, leftListItem: number, rightList: number[]): number {
+    let counter: number = 0;
+    rightList.forEach((num) => {
+        if (num === leftListItem) {
+            counter += 1
+        }
+    })
+    totalScore = leftListItem * counter
+
+    return totalScore
+}
+
+function solvePartOne(fileName: string) {
+    const arrays = getNumArrays(fileName)
+    const firstNumArray: number[] = arrays[0]
+    const secNumArray: number[] = arrays[1]
 
     // console.log(firstNumArray)
     // console.log(secNumArray)
@@ -81,6 +94,46 @@ export default function solve() {
         totalDistance = totalDistance + num
     })
 
+    console.log("=======")
+    console.log("Answer to Part 1:")
     console.log(totalDistance)
+    console.log("=======")
+}
+
+
+function solvePartTwo(fileName: string) {
+    // Gather a list of how many times each left
+    // list item appears in the right list.
+    // Multiply each item by it's appearance count
+    // Sum all the results
+
+    const content = readFile(fileName)
+
+    let totalScore: number = 0;
+
+    const arrays = getNumArrays(fileName)
+    const leftList: number[] = arrays[0]
+    const rightList: number[] = arrays[1]
+
+    leftList.forEach((leftNum) => {
+        totalScore = totalScore + getNumOfAppearances(totalScore, leftNum, rightList)
+    })
+
+
+    console.log("=======")
+    console.log("Answer to Part 2:")
+    console.log(totalScore)
+    console.log("=======")
+}
+
+export default function solve() {
+    // Actual data file
+    const fileName = "day01-input.txt"
+    // Test data file
+    //const fileName = "day01-test-input.txt"
+
+    solvePartOne(fileName)
+
+    solvePartTwo(fileName)
 
 }
