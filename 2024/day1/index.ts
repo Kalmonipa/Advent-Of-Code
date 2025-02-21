@@ -15,7 +15,7 @@ function readFile(filename: string): string {
 
 export default function solve() {
     // Actual data file
-    //const fileName = "day01-test-input.txt"
+    //const fileName = "day01-input.txt"
     // Test data file
     const fileName = "day01-test-input.txt"
 
