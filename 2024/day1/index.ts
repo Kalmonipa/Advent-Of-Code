@@ -128,9 +128,9 @@ function solvePartTwo(fileName: string) {
 
 export default function solve() {
     // Actual data file
-    const fileName = "day01-input.txt"
+    const fileName = "input.txt"
     // Test data file
-    //const fileName = "day01-test-input.txt"
+    //const fileName = "test-input.txt"
 
     solvePartOne(fileName)
 
