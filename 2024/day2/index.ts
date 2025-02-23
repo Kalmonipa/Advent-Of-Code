@@ -102,7 +102,7 @@ function testSecondCondition(level: number[]): boolean {
     return isSafe;
 }
 
-function solvePartOne(content: number[][]) {
+function solvePartOne(content: number[][]): number {
     // Both of the following must be true
     //   - Levels are all increasing or all decreasing
     //   - Any two adjacent levels differ by at least one and 
@@ -114,10 +114,10 @@ function solvePartOne(content: number[][]) {
         console.log(report)
         let isSafe = false;
 
-        console.log("isSafe value is:", isSafe)
+        //console.log("isSafe value is:", isSafe)
 
         const passesFirstCondition: boolean = testFirstCondition(report)
-        console.log("Passed first condition:", passesFirstCondition)
+        //console.log("Passed first condition:", passesFirstCondition)
 
 
         if (passesFirstCondition === true) {
@@ -131,10 +131,10 @@ function solvePartOne(content: number[][]) {
         }
 
         if (isSafe) {
-            console.log("Report is safe");
+            //console.log("Report is safe");
             totalSafeLevels += 1;
         } else {
-            console.log("Report is unsafe");
+            //console.log("Report is unsafe");
         }
     })
 
@@ -144,6 +144,8 @@ function solvePartOne(content: number[][]) {
     console.log("Answer to Part 1:")
     console.log(totalSafeLevels)
     console.log("=======")
+
+    return totalSafeLevels;
 }
 
 function solvePartTwo(content: number[][]) {
@@ -219,7 +221,13 @@ export default function solve(mode?: string) {
 
     const content: number[][] = getNumArray(fileName);
 
-    //solvePartOne(content)
+    const partOneAnswer: number = solvePartOne(content);
+    const expectedNumber = mode === "test" ? 2 : 390;
+
+    if (partOneAnswer !== expectedNumber) {
+        console.error("Part One is longer correct");
+        process.exit(1);
+    }
 
     solvePartTwo(content)
 
