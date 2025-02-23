@@ -1,6 +1,10 @@
 import * as fs from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
+import { createLogger, LogLevel } from "../utils/logger";
+
+const logger = createLogger(LogLevel.INFO);
+
 
 function readFile(filename: string): string {
     const __filename = fileURLToPath(import.meta.url);
@@ -8,8 +12,8 @@ function readFile(filename: string): string {
 
     const content = fs.readFileSync(join(__dirname, filename), 'utf8')
 
-    // console.log("== Content")
-    // console.log(content)
+    // logger.debug("== Content")
+    // logger.debug(content)
 
     return content;
 }
@@ -25,8 +29,8 @@ function convertToNumber(strArray: string[]): number[] {
 }
 
 function calculateDistances(numOne: number, numTwo: number): number {
-    // console.log("numOne:", numOne)
-    // console.log("numTow:", numTwo)
+    // logger.debug("numOne:", numOne)
+    // logger.debug("numTow:", numTwo)
 
     let dist: number = 0
 
@@ -77,8 +81,8 @@ function solvePartOne(fileName: string) {
     const firstNumArray: number[] = arrays[0]
     const secNumArray: number[] = arrays[1]
 
-    // console.log(firstNumArray)
-    // console.log(secNumArray)
+    // logger.debug(firstNumArray)
+    // logger.debug(secNumArray)
 
     let distancesArray: number[] = [];
 
@@ -86,7 +90,7 @@ function solvePartOne(fileName: string) {
         distancesArray.push(calculateDistances(firstNumArray[index], secNumArray[index]));
     })
 
-    //console.log(distancesArray)
+    //logger.debug(distancesArray)
 
     let totalDistance: number = 0;
 
@@ -94,10 +98,10 @@ function solvePartOne(fileName: string) {
         totalDistance = totalDistance + num
     })
 
-    console.log("=======")
-    console.log("Answer to Part 1:")
-    console.log(totalDistance)
-    console.log("=======")
+    logger.info("=======")
+    logger.info("Answer to Part 1:")
+    logger.info(totalDistance.toString())
+    logger.info("=======")
 }
 
 
@@ -120,13 +124,15 @@ function solvePartTwo(fileName: string) {
     })
 
 
-    console.log("=======")
-    console.log("Answer to Part 2:")
-    console.log(totalScore)
-    console.log("=======")
+    logger.info("=======")
+    logger.info("Answer to Part 2:")
+    logger.info(totalScore.toString())
+    logger.info("=======")
 }
 
 export default function solve(mode?: string) {
+    logger.setLevel(LogLevel.INFO);
+    
     const fileName = mode === "test" ? "test-input.txt" : "input.txt";
 
     solvePartOne(fileName)
