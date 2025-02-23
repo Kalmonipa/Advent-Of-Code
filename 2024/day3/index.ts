@@ -61,6 +61,23 @@ function solvePartOne(content: string): number {
     return totalValue;
 }
 
+function solvePartTwo(content: string): number {
+    let totalValue: number = 0;
+    var mulCount = (content.match(/mul\(/g) || []).length
+    let ind: number = 0
+
+    for (let i = 0; i < mulCount; i++) {
+        ind = content.indexOf("mul(", ind)
+
+        totalValue += parseMul(content, ind)
+
+        ind = ind + 4;
+    }
+
+    logger.debug(totalValue.toString())
+    return totalValue;
+}
+
 export default function solve(mode?: string) {
     const fileName = mode === "test" ? "test-input.txt" : "input.txt";
     const content: string = readFile(fileName)
@@ -74,12 +91,11 @@ export default function solve(mode?: string) {
     logger.info(partOneAnswer.toString())
     logger.info("=======")
 
-    // partIdentifier = 2
-    // const partTwoAnswer: number = solvePartTwo(content)
+    const partTwoAnswer: number = solvePartTwo(content)
 
-    // logger.info("=======")
-    // logger.info("Answer to Part", partIdentifier)
-    // logger.info(partTwoAnswer.toString())
-    // logger.info("=======")
+    logger.info("=======")
+    logger.info("Answer to Part 2")
+    logger.info(partTwoAnswer.toString())
+    logger.info("=======")
 
 }
