@@ -43,6 +43,65 @@ function getNumArray(fileName: string): number[][] {
     return numArray
 }
 
+// Tests whether the level is increasing or decreasing consistently
+function testFirstCondition(level: number[]): boolean {
+    let previousState: number = 0;
+    let currentState: number = 0; // If this is 1 the level is increasing, if -1 level is decreasing
+
+    // Set the initial state increasing or decreasing
+    if (level[0] < level[1]) {
+        currentState = 1
+        previousState = currentState
+    } else if (level[0] > level[1]) {
+        currentState = -1
+        previousState = currentState
+    }
+
+    console.log("Initial state:", currentState)
+
+    for (let i = 0; i < level.length - 1; i++) {
+        let numOne: number = level[i]
+        let numTwo: number = level[i+1]        
+
+        if (numOne < numTwo) {
+            currentState = 1
+        } else if (numOne > numTwo) {
+            currentState = -1
+        }
+        
+        if (currentState !== previousState) {
+            console.log("State is changing. Was", previousState, "is now", currentState);
+            console.log("Line is unsafe")
+            return false;
+        }
+        previousState = currentState;
+    }
+    console.log("First condition is safe")
+    return true;
+}
+
+//   - Any two adjacent levels differ by at least one and 
+//     at most three
+function testSecondCondition(level: number[]): boolean {
+    let isSafe: boolean = false;
+
+    for (let i = 0; i < level.length - 1; i++) {
+        let numOne: number = level[i]
+        let numTwo: number = level[i+1]
+        let comparison: number = numOne - numTwo
+
+        if ((3 >= comparison && comparison >= 1) || (-3 <= comparison && comparison <= -1)) {
+            console.log(level[i], "and", level[i+1], "is safe")
+            isSafe = true
+        } else {
+            console.log(level[i], "and", level[i+1], "is unsafe")
+            isSafe = false
+            break;
+        }
+    }
+    return isSafe;
+}
+
 function solvePartOne(fileName: string) {
     // Both of the following must be true
     //   - Levels are all increasing or all decreasing
@@ -53,12 +112,52 @@ function solvePartOne(fileName: string) {
 
     const content: number[][] = getNumArray(fileName);
 
-    console.log(content)
+    content.forEach(level => {
+        console.log(level)
+        let isSafe = false;
+
+        console.log("isSafe value is:", isSafe)
+
+        const passesFirstCondition: boolean = testFirstCondition(level)
+        console.log("Passed first condition:", passesFirstCondition)
+
+
+        if (passesFirstCondition === true) {
+            isSafe = true;
+        } else {
+            isSafe = false;
+        }
+
+        if (isSafe && testSecondCondition(level) === false) {
+            isSafe = false
+        }
+
+        if (isSafe) {
+            console.log("Level is safe");
+            totalSafeLevels += 1;
+        } else {
+            console.log("Level is unsafe");
+        }
+    })
+
+    
+
+    console.log("=======")
+    console.log("Answer to Part 1:")
+    console.log(totalSafeLevels)
+    console.log("=======")
+}
+
+function solvePartTwo(fileName: string) {
+    let totalSafeLevels: number = 0;
+
+    const content: number[][] = getNumArray(fileName);
 
     content.forEach((level) => {
         let isSafe = false;
         let previousState: number = 0;
         let currentState: number = 0; // If this is 1 the level is increasing, if -1 level is decreasing
+        let problemDampened: boolean = false;
 
         // Set the initial state increasing or decreasing
         if (level[0] < level[1]) {
@@ -84,8 +183,12 @@ function solvePartOne(fileName: string) {
             
             if (currentState !== previousState) {
                 console.log("State is changing. Was", previousState, "is now", currentState);
-                isSafe = false;
-                break;
+                if (problemDampened) {
+                    isSafe = false;
+                    break;
+                } else {
+                    problemDampened = true;
+                }
             }
 
             // This checks the second condition
@@ -94,8 +197,10 @@ function solvePartOne(fileName: string) {
                 isSafe = true
             } else {
                 console.log(level[i], "and", level[i+1], "is unsafe")
-                isSafe = false
-                break
+                if (problemDampened) {
+                    isSafe = false
+                    break;
+                } else problemDampened = true
             }
             previousState = currentState;
         }
@@ -108,15 +213,16 @@ function solvePartOne(fileName: string) {
     
 
     console.log("=======")
-    console.log("Answer to Part 1:")
+    console.log("Answer to Part 2:")
     console.log(totalSafeLevels)
     console.log("=======")
-
 }
 
 export default function solve(mode?: string) {
     const fileName = mode === "test" ? "test-input.txt" : "input.txt";
 
     solvePartOne(fileName)
+
+    //solvePartTwo(fileName)
 
 }
