@@ -62,6 +62,8 @@ function solvePartOne(content: string): number {
 }
 
 function solvePartTwo(content: string): number {
+    // Current thinking is just to cut out the substrings between `don't()` and `do()`
+    // and then process the remaining like in part 1
     let totalValue: number = 0;
     var mulCount = (content.match(/mul\(/g) || []).length
     let ind: number = 0
