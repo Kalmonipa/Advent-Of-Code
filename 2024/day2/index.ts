@@ -44,28 +44,28 @@ function getNumArray(fileName: string): number[][] {
 }
 
 // Tests whether the level is increasing or decreasing consistently
-function testFirstCondition(level: number[]): boolean {
+function testFirstCondition(report: number[]): boolean {
     let previousState: number = 0;
     let currentState: number = 0; // If this is 1 the level is increasing, if -1 level is decreasing
 
     // Set the initial state increasing or decreasing
-    if (level[0] < level[1]) {
+    if (report[0] < report[1]) {
         currentState = 1
         previousState = currentState
-    } else if (level[0] > level[1]) {
+    } else if (report[0] > report[1]) {
         currentState = -1
         previousState = currentState
     }
 
     console.log("Initial state:", currentState)
 
-    for (let i = 0; i < level.length - 1; i++) {
-        let numOne: number = level[i]
-        let numTwo: number = level[i+1]        
+    for (let i = 0; i < report.length - 1; i++) {
+        let levelOne: number = report[i]
+        let levelTwo: number = report[i+1]        
 
-        if (numOne < numTwo) {
+        if (levelOne < levelTwo) {
             currentState = 1
-        } else if (numOne > numTwo) {
+        } else if (levelOne > levelTwo) {
             currentState = -1
         }
         
@@ -112,13 +112,13 @@ function solvePartOne(fileName: string) {
 
     const content: number[][] = getNumArray(fileName);
 
-    content.forEach(level => {
-        console.log(level)
+    content.forEach(report => {
+        console.log(report)
         let isSafe = false;
 
         console.log("isSafe value is:", isSafe)
 
-        const passesFirstCondition: boolean = testFirstCondition(level)
+        const passesFirstCondition: boolean = testFirstCondition(report)
         console.log("Passed first condition:", passesFirstCondition)
 
 
@@ -128,7 +128,7 @@ function solvePartOne(fileName: string) {
             isSafe = false;
         }
 
-        if (isSafe && testSecondCondition(level) === false) {
+        if (isSafe && testSecondCondition(report) === false) {
             isSafe = false
         }
 
