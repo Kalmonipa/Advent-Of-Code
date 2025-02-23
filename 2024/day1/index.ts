@@ -126,11 +126,8 @@ function solvePartTwo(fileName: string) {
     console.log("=======")
 }
 
-export default function solve() {
-    // Actual data file
-    const fileName = "day01-input.txt"
-    // Test data file
-    //const fileName = "day01-test-input.txt"
+export default function solve(mode?: string) {
+    const fileName = mode === "test" ? "test-input.txt" : "input.txt";
 
     solvePartOne(fileName)
 
