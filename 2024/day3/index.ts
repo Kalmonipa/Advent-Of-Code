@@ -111,7 +111,7 @@ function solvePartTwo(content: string): number {
         //logger.debug("New substring:", content)
     }
 
-    logger.debug("Number of disable flags removed:", disabledFlagsRemoved)
+    logger.debug("Number of disable/enable groups removed:", disabledFlagsRemoved)
 
     //logger.debug("New substring:", content)
 
