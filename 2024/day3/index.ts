@@ -87,7 +87,9 @@ function findNextIndex(content: string, identifer: string, ind: number): number 
 
 // We keep track of whether instructions are enabled or disabled with enableInstructions
 // Continuosly check whether instructions should be enabled or disabled by seeing which flag (do or don't) is more recent
-// 
+// If we reach 
+//     - an enable or disable flag: enable/disable and then find the next instance
+//     - a mul phrase, parse it, validate it and add it to the total
 function solvePartTwo(content: string): number {
     let totalValue: number = 0;
     let enableInstructions: boolean = true;
