@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
 
-const logger = createLogger(LogLevel.DEBUG); // Change this to DEBUG to view debugging logs
+const logger = createLogger(LogLevel.INFO); // Change this to DEBUG to view debugging logs
 
 let mulIdentifier: string = "mul(";
 let disableIdentifier: string = "don't()";
@@ -84,6 +84,10 @@ function findNextIndex(content: string, identifer: string, ind: number): number 
     return i
 }
 
+
+// We keep track of whether instructions are enabled or disabled with enableInstructions
+// Continuosly check whether instructions should be enabled or disabled by seeing which flag (do or don't) is more recent
+// 
 function solvePartTwo(content: string): number {
     let totalValue: number = 0;
     let enableInstructions: boolean = true;
@@ -110,7 +114,6 @@ function solvePartTwo(content: string): number {
         if (i >= nextDontIndex) {
             prevDontIndex = i
             logger.debug("Setting prev dont index", prevDontIndex)
-
         }
         if (i >= nextDoIndex) {
             prevDoIndex = i
@@ -167,7 +170,7 @@ export default function solve(mode?: string) {
 
     logger.info("=======")
     logger.info("Answer to Part 1")
-    logger.info("Expected: 159833790, Actual: ", partOneAnswer)
+    logger.info(partOneAnswer.toString())
     logger.info("=======")
 
     const partTwoAnswer: number = solvePartTwo(content)
