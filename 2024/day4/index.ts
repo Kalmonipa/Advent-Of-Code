@@ -27,30 +27,18 @@ function printMapOfChars(mapOfChars: Character[]) {
     }
 }
 
-function mapWordSearch(content: string): Character[] {
-    let mapOfChars: Character[] = [];
+function mapWordSearch(content: string): string[][] {
+    let matrixOfChars: string[][] = content.split('\n').map(row => row.split(""))
 
-    const contentLines: string[] = content.split('\n')
+    logger.debug(matrixOfChars[3][8])
 
-    for (let y = 0; y < contentLines.length; y++) {
-        for (let x = 0; x < contentLines[y].length; x++) {
-            let newChar: Character = {
-                name: contentLines[y][x],
-                xPos: x,
-                yPos: y
-            }
-            // logger.debug(newChar.name)
-            mapOfChars.push(newChar)
-        }
-    }
+    //printMapOfChars(mapOfChars)
 
-    printMapOfChars(mapOfChars)
-
-    return [];
+    return matrixOfChars;
 }
 
 function solvePartOne(content: string): number {
-    const matrix: Character[] = mapWordSearch(content)
+    const matrix: string[][] = mapWordSearch(content)
 
     return 0
 }
