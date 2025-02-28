@@ -1,8 +1,9 @@
 import { createLogger, LogLevel } from "../utils/logger";
-import {convertToNumber} from '../utils/helpers'
 import * as fs from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
+import { solvePartOne } from './part1';
+import { solvePartTwo } from "./part2";
 
 const logger = createLogger(LogLevel.INFO); // Change this to DEBUG to view debugging logs
 
@@ -13,14 +14,6 @@ function readFile(filename: string): string {
     const content = fs.readFileSync(join(__dirname, filename), 'utf8')
 
     return content;
-}
-
-function solvePartOne(content: string): number {
-    return 0
-}
-
-function solvePartTwo(content: string): number {
-    return 0
 }
 
 export default function solve(mode?: string) {
@@ -34,11 +27,11 @@ export default function solve(mode?: string) {
     logger.info(partOneAnswer.toString())
     logger.info("=======")
 
-    // const partTwoAnswer: number = solvePartTwo(content)
+    const partTwoAnswer: number = solvePartTwo(content)
 
-    // logger.info("=======")
-    // logger.info("Answer to Part 2")
-    // logger.info(partTwoAnswer.toString())
-    // logger.info("=======")
+    logger.info("=======")
+    logger.info("Answer to Part 2")
+    logger.info(partTwoAnswer.toString())
+    logger.info("=======")
 
 }
