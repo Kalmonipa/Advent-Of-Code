@@ -4,7 +4,13 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
 
-const logger = createLogger(LogLevel.INFO); // Change this to DEBUG to view debugging logs
+const logger = createLogger(LogLevel.DEBUG); // Change this to DEBUG to view debugging logs
+
+export interface Character {
+    name: string;
+    xPos: number;
+    yPos: number;
+  }
 
 function readFile(filename: string): string {
     const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +21,37 @@ function readFile(filename: string): string {
     return content;
 }
 
+function printMapOfChars(mapOfChars: Character[]) {
+    for (let char of mapOfChars) {
+        logger.debug(char.name, "- x:", char.xPos, "y:", char.yPos)
+    }
+}
+
+function mapWordSearch(content: string): Character[] {
+    let mapOfChars: Character[] = [];
+
+    const contentLines: string[] = content.split('\n')
+
+    for (let y = 0; y < contentLines.length; y++) {
+        for (let x = 0; x < contentLines[y].length; x++) {
+            let newChar: Character = {
+                name: contentLines[y][x],
+                xPos: x,
+                yPos: y
+            }
+            // logger.debug(newChar.name)
+            mapOfChars.push(newChar)
+        }
+    }
+
+    printMapOfChars(mapOfChars)
+
+    return [];
+}
+
 function solvePartOne(content: string): number {
+    const matrix: Character[] = mapWordSearch(content)
+
     return 0
 }
 
