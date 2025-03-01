@@ -1,8 +1,4 @@
 import { createLogger, LogLevel } from "../utils/logger";
-import {convertToNumber} from '../utils/helpers'
-import * as fs from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
 
 const logger = createLogger(LogLevel.INFO); // Change this to DEBUG to view debugging logs
 
@@ -22,7 +18,6 @@ function printMatrixOfChars() {
 function findValidChars(targetChar: string) {
 
     // printMatrixOfChars()
-
 
     // Validate that the char we're searching for is a single char and one of:
     //  X,M,A,S
@@ -49,7 +44,6 @@ function findValidChars(targetChar: string) {
             }
         }
     }
-    
 }
 
 // Checks to see if the surrounding characters are next in the wordsearch (i.e. if we found an X, then look for M)
