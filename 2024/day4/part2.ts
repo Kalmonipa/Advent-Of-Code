@@ -12,10 +12,7 @@ function convertStringIntoMatrix(content: string): string[][] {
 }
 
 // Start the process by finding instances of the beginning character
-function findValidChars(targetChar: string) {
-
-    // printMatrixOfChars()
-
+function searchMatrixFor(targetChar: string) {
     // Validate that the char we're searching for is a single char and one of:
     // M,A,S
     if (!validCharacters.includes(targetChar)) {
@@ -43,123 +40,79 @@ function findValidChars(targetChar: string) {
     }
 }
 
-// Checks to see if the surrounding characters are next in the wordsearch (i.e. if we found an X, then look for M)
-// We use compass notation here (N, E, S, W) to make directions easier
-function checkSurroundingCharacters(indices: number[], nextChar: string): number[] {
+// Starts the search from the center A character and checks NW, NE, SE and SW
+// to see if they are valid M, M, S, S chars in the correct order
+function checkSurroundingCharacters(indices: number[], nextChar: string) {
     let y: number = indices[0]
     let x: number = indices[1]
 
-    let topRow: boolean = y === 0 || y === 1
-    let bottomRow: boolean = y === matrixOfChars.length - 1 || y === matrixOfChars.length - 2
-    let leftRow: boolean = x === 0 || x === 1
-    let rightRow: boolean = x === matrixOfChars[0].length - 1 || y === matrixOfChars[0].length - 2
+    let validCombinations: string[][] = [["M","M","S","S"],["M","S","M","S"],["S","S","M","M"],["S","M","S","M"]]
+
+    let topRow: boolean = y === 0
+    let bottomRow: boolean = y === matrixOfChars.length - 1
+    let leftRow: boolean = x === 0
+    let rightRow: boolean = x === matrixOfChars[0].length - 1
 
     logger.debug("x:", x, ", y:", y)
     logger.debug("topRow:", topRow, ", bottomRow:", bottomRow, ",leftRow:", leftRow, ", rightRow:", rightRow)
 
-    // If we're in the top left corner, only check S, SE, E
-    if (topRow && leftRow) {
-        // Check south
-        checkCharInDirection(indices, "S", nextChar)
-        // Check south east
-        checkCharInDirection(indices, "SE", nextChar)
-        // Check east
-        checkCharInDirection(indices, "E", nextChar)
-    } // Top right corner, only check S, SW, W
-    else if (topRow && rightRow) {
-        // Check south
-        checkCharInDirection(indices, "S", nextChar)
-        // Check south west
-        checkCharInDirection(indices, "SW", nextChar)
-        // Check west
-        checkCharInDirection(indices, "W", nextChar)
-    } // Bottom left corner, only check N, NE, E
-    else if (bottomRow && leftRow) {
-        // Check north
-        checkCharInDirection(indices, "N", nextChar)
-        // Check north east
-        checkCharInDirection(indices, "NE", nextChar)
-        // Check east
-        checkCharInDirection(indices, "E", nextChar)
-    } // Bottom right corner, only check N, NW, W
-    else if (bottomRow && rightRow) {
-        // Check north
-        checkCharInDirection(indices, "N", nextChar)
-        // Check north west
-        checkCharInDirection(indices, "NW", nextChar)
-        // Check west
-        checkCharInDirection(indices, "W", nextChar)
-    } else if (topRow) {
-        logger.debug("Char is on the top row")
-        // Check east
-        checkCharInDirection(indices, "E", nextChar)
-        // Check south east
-        checkCharInDirection(indices, "SE", nextChar)
-        // Check south
-        checkCharInDirection(indices, "S", nextChar)
-        // Check south west
-        checkCharInDirection(indices, "SW", nextChar)
-        // Check west
-        checkCharInDirection(indices, "W", nextChar)
-    } else if (rightRow) {
-        // Check south
-        checkCharInDirection(indices, "S", nextChar)
-        // Check south west
-        checkCharInDirection(indices, "SW", nextChar)
-        // Check west
-        checkCharInDirection(indices, "W", nextChar)
-        // Check north west
-        checkCharInDirection(indices, "NW", nextChar)
-        // Check north
-        checkCharInDirection(indices, "N", nextChar)
-    } else if (bottomRow) {
-        // Check west
-        checkCharInDirection(indices, "W", nextChar)
-        // Check north west
-        checkCharInDirection(indices, "NW", nextChar)
-        // Check north
-        checkCharInDirection(indices, "N", nextChar)
-        // Check north east
-        checkCharInDirection(indices, "NE", nextChar)
-        // Check east
-        checkCharInDirection(indices, "E", nextChar)
-    } else if (leftRow) {
-        // Check north
-        checkCharInDirection(indices, "N", nextChar)
-        // Check north east
-        checkCharInDirection(indices, "NE", nextChar)
-        // Check east
-        checkCharInDirection(indices, "E", nextChar)
-        // Check south east
-        checkCharInDirection(indices, "SE", nextChar)
-        // Check south
-        checkCharInDirection(indices, "S", nextChar)
+    if (topRow || rightRow || bottomRow || leftRow) {
+        logger.debug("A cannot be on an edge. Skipping")
     } else {
-        // Check north
-        checkCharInDirection(indices, "N", nextChar)
-        // Check north east
-        checkCharInDirection(indices, "NE", nextChar)
-        // Check east
-        checkCharInDirection(indices, "E", nextChar)
-        // Check south east
-        checkCharInDirection(indices, "SE", nextChar)
-        // Check south
-        checkCharInDirection(indices, "S", nextChar)
-        // Check south west
-        checkCharInDirection(indices, "SW", nextChar)
-        // Check west
-        checkCharInDirection(indices, "W", nextChar)
-        // Check north west
-        checkCharInDirection(indices, "NW", nextChar)
+        let foundCombination: string[] = getSurroundingChars(indices, ["NW","NE","SW","SE"], nextChar)
+        for (let combo of validCombinations) {
+            if (combo.toString() === foundCombination.toString()) {
+                logger.debug("Found valid X combination", foundCombination, "surrounding A at x", x, ", y", y)
+                totalPartTwoWordsFound += 1
+                break
+            } else {
+                logger.debug("Found combination", foundCombination, "not in", validCombinations)
+            }
+        }
     }
+}
 
-    return []
+
+function getSurroundingChars(indices: number[], directions: string[], desiredChar: string): string[] {
+    let y: number = indices[0]
+    let x: number = indices[1]
+
+    let foundCombination: string[] = []
+
+    for (let direction of directions) {
+
+        logger.debug("Current position: x", x, "y",y)
+        logger.debug("Looking", direction, "for", desiredChar)
+
+        switch (direction) {
+            case "NW":
+                logger.debug("Found", desiredChar, "to the north west")
+                foundCombination.push(matrixOfChars[y-1][x-1])
+                break
+            case "NE":
+                logger.debug("Found", desiredChar, "to the north east")
+                foundCombination.push(matrixOfChars[y-1][x+1])
+                break
+            case "SE":
+                logger.debug("Found", desiredChar, "to the south east")
+                foundCombination.push(matrixOfChars[y+1][x+1])
+                break
+            case "SW":
+                logger.debug("Found", desiredChar, "to the south west")
+                foundCombination.push(matrixOfChars[y+1][x-1])
+                break
+            }
+        logger.debug("Current combination:",foundCombination)
+    }
+    return foundCombination
 }
 
 
 export function solvePartTwo(content: string): number {
 
     matrixOfChars = convertStringIntoMatrix(content)
+
+    searchMatrixFor("A")
 
     return totalPartTwoWordsFound;
 }
