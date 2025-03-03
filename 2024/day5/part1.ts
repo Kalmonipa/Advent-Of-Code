@@ -15,9 +15,6 @@ function parseFile(content: string): string[] {
         orderRulesAndUpdates.splice(2)
     }
 
-    // logger.debug("Page order rules:\n", orderRulesAndUpdates[0])
-    // logger.debug("Updates:\n", orderRulesAndUpdates[1])
-
     return orderRulesAndUpdates
 }
 
