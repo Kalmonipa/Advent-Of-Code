@@ -75,11 +75,16 @@ function checkUpdate(updates: number[]): boolean {
     }
     if (isValidUpdate) {
         logger.debug(updates, "is a valid update")
-        totalPartOneValidUpdates += 1
+        //totalPartOneValidUpdates += 1
         return true
     }
-    return false
-    
+    return false   
+}
+
+function findMiddlePage(update: number[]): number {
+    let middle: number = update[Math.round((update.length - 1) / 2)]
+    logger.debug("Middle page in", update,"is", middle)
+    return middle
 }
 
 function convertStringArrayToNumArray(update: string, delimiter: string): number[] {
@@ -114,12 +119,10 @@ export function solvePartOne(content: string): number {
 
     for (let update of updates) {
         logger.debug("=== Checking", update)
-        checkUpdate(update)
+        if (checkUpdate(update)) {
+            totalPartOneValidUpdates += findMiddlePage(update)
+        }
     }
     
-
-
-    
-
     return totalPartOneValidUpdates;
 }
