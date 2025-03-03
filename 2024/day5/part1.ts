@@ -1,8 +1,7 @@
 import { createLogger, LogLevel } from "../utils/logger";
 import { convertStringToArray, convertToNumber } from "../utils/helpers"
-import { isBigInt64Array } from "util/types";
 
-const logger = createLogger(LogLevel.DEBUG); // Change this to DEBUG to view debugging logs
+const logger = createLogger(LogLevel.INFO); // Change this to DEBUG to view debugging logs
 
 let ruleMap = new Map<number, number[]>();
 let totalPartOneValidUpdates: number = 0
@@ -101,9 +100,6 @@ export function solvePartOne(content: string): number {
     const orders: string[] = parseFile(content)
     pageOrderRulesStr = convertStringToArray(orders[0])
     updatesStr = convertStringToArray(orders[1])
-
-    //logger.debug("Page order rules:\n", pageOrderRulesStr)
-    //logger.debug("Updates:\n", updates)
 
     // Convert order rules from string arrays to num arrays
     for (let orderRule of pageOrderRulesStr) {
