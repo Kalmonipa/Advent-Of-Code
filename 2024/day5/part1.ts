@@ -62,7 +62,6 @@ function validateUpdate(numOne: number, numTwo: number): boolean {
 function checkUpdate(updates: number[]): boolean {
     let isValidUpdate: boolean = false
 
-    logger.debug("Updates:",updates)
     for (let updateA = 0; updateA < updates.length - 1; updateA++) {
         for (let updateB = updateA+1; updateB < updates.length; updateB++) {
             isValidUpdate = validateUpdate(updates[updateA], updates[updateB])
@@ -73,8 +72,7 @@ function checkUpdate(updates: number[]): boolean {
         }
     }
     if (isValidUpdate) {
-        logger.debug(updates, "is a valid update")
-        //totalPartOneValidUpdates += 1
+        logger.debug(updates.toString(), "is a valid update")
         return true
     }
     return false   
