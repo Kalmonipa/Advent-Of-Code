@@ -45,7 +45,7 @@ function validateUpdate(numOne: number, numTwo: number): boolean {
     logger.debug("Comparing", numOne, "and", numTwo)
     if (ruleMap.has(numOne)) {
         logger.debug("Rule found for", numOne)
-        if (ruleMap.get(numOne).includes(numTwo)) {
+        if (ruleMap.get(numOne)?.includes(numTwo)) {
             logger.debug("+ Key", numOne, "must come before", numTwo)
             return true
         } else {

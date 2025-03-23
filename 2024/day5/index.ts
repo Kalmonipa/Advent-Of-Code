@@ -27,11 +27,11 @@ export default function solve(mode?: string) {
     logger.info(partOneAnswer.toString())
     logger.info("=======")
 
-    // const partTwoAnswer: number = solvePartTwo(content)
+    const partTwoAnswer: number = solvePartTwo(content)
 
-    // logger.info("=======")
-    // logger.info("Answer to Part 2")
-    // logger.info(partTwoAnswer.toString())
-    // logger.info("=======")
+    logger.info("=======")
+    logger.info("Answer to Part 2")
+    logger.info(partTwoAnswer.toString())
+    logger.info("=======")
 
 }
