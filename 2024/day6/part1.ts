@@ -106,7 +106,7 @@ export function solvePartOne(content: string): number {
 
     guardExited = moveGuard(guardIcon, guardCurrentPosition)
 
-    while (guardExited === true) {
+    while (guardExited) {
         guardExited = moveGuard(guardIcon, guardCurrentPosition)
     }
 

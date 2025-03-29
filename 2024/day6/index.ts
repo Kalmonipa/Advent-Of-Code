@@ -20,18 +20,18 @@ export default function solve(mode?: string) {
     const fileName = mode === "test" ? "test-input.txt" : "input.txt";
     const content: string = readFile(fileName)
 
-    const partOneAnswer: number = solvePartOne(content)
-
-    logger.info("=======")
-    logger.info("Answer to Part 1")
-    logger.info(partOneAnswer.toString())
-    logger.info("=======")
-
-    // const partTwoAnswer: number = solvePartTwo(content)
+    // const partOneAnswer: number = solvePartOne(content)
 
     // logger.info("=======")
-    // logger.info("Answer to Part 2")
-    // logger.info(partTwoAnswer.toString())
+    // logger.info("Answer to Part 1")
+    // logger.info(partOneAnswer.toString())
     // logger.info("=======")
+
+    const partTwoAnswer: number = solvePartTwo(content)
+
+    logger.info("=======")
+    logger.info("Answer to Part 2")
+    logger.info(partTwoAnswer.toString())
+    logger.info("=======")
 
 }
