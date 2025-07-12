@@ -1,12 +1,9 @@
 import { createLogger, LogLevel } from "../utils/logger";
 import { convertStringToNumber, convertToNumber } from "../utils/helpers";
 
-const logger = createLogger(LogLevel.DEBUG); // Change this to DEBUG to view debugging logs
+const logger = createLogger(LogLevel.INFO); // Change this to DEBUG to view debugging logs
 
-const multiOperator = '*';
-const addOperator = '+';
-
-function parse(content: string) {
+function parse(content: string): [number, number[]] {
     const testValueStr = content.split(':')[0]
     const numbersStr = content.split(':')[1].split(" ").filter(num => num !== "")
 
@@ -22,18 +19,36 @@ function parse(content: string) {
     return [testValue, numbers] as const
 }
 
-function addNumbers(numOne: number, numTwo: number): number {
-    return numOne + numTwo
-}
+function canReachTarget(target: number, currentResult: number, remainingNumbers: number[], index: number): boolean {
+    logger.debug("Current result:", currentResult)
+    logger.debug("Remaining nums left:", remainingNumbers)
+    logger.debug("Number of nums left:", remainingNumbers.length)
+    logger.debug("Current index:", index)
+    // If currentResult
+    if (remainingNumbers.length === 0) {
+        logger.debug("Returning", currentResult)
+        return currentResult === target
+    }
 
-function multiNumbers(numOne: number, numTwo: number): number {
-    return numOne * numTwo
-}
+    if (index >= 5) {
+        return false
+    }
 
-function checkTestValAgainstEquation(numbersResult: number, testValue: number): boolean {
-    if (numbersResult === testValue) {
+    let nextNumber = remainingNumbers[index]
+    logger.debug("Next number is", nextNumber)
+
+    // Try addition
+    if (canReachTarget(target, currentResult + nextNumber, remainingNumbers.slice(1), index)) {
         return true
-    } else return false
+    }
+
+    // Try multiplication
+    if (canReachTarget(target, currentResult * nextNumber, remainingNumbers.splice(1), index)) {
+        return true
+    }
+
+    logger.debug("Result", currentResult, "not equal to test value", target)
+    return false
 }
 
 export function solvePartOne(content: string): number {
@@ -48,16 +63,8 @@ export function solvePartOne(content: string): number {
         const numTwo = numbers[1]
         logger.debug("Testing numbers", numOne, "and", numTwo)
 
-        let numbersResult = addNumbers(numOne, numTwo)
-
-        if (numbersResult === testValue) {
+        if (canReachTarget(testValue, 0, numbers, 0)) {
             totalCalibrationResult += testValue
-            break;
-        } else {
-            numbersResult = multiNumbers(numOne, numTwo)
-            if (numbersResult === testValue) {
-                totalCalibrationResult += testValue
-            }
         }
     }
 
