@@ -43,7 +43,7 @@ function canReachTarget(target: number, currentResult: number, remainingNumbers:
     }
 
     // Try multiplication
-    if (canReachTarget(target, currentResult * nextNumber, remainingNumbers.splice(1), index)) {
+    if (canReachTarget(target, currentResult * nextNumber, remainingNumbers.slice(1), index)) {
         return true
     }
 
